@@ -43,6 +43,7 @@
   font-size: 96px;
   line-height: 96px;
   text-align: right;
+  word-break: break-all;
 }
 
 .buttons-list {
@@ -79,11 +80,11 @@
   background-color: #4E505F;
 }
 
-.button-reset-one {
+.button-clear {
   position: relative;
 }
 
-.button-reset-one::before {
+.button-clear::before {
   position: absolute;
   content: "";
   top: 50%;
@@ -94,12 +95,15 @@
   transform: translate(-50%, -50%);
 }
 
-.button-operator {
+.button-operator,
+.button-total {
   background-color: #4B5EFC;
 }
 
 .button-operator:hover,
-.button-operator:focus {
+.button-total:hover,
+.button-operator:focus,
+.button-total:focus {
   background-color: #3648ee;
 }
 

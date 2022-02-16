@@ -1,70 +1,60 @@
 <!DOCTYPE html>
 <html class="page" lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="css/style.css" />
-    <title>Calculator</title>
-  </head>
-  <body class="page-body">
-    <div class="container">
-      <div class="output-line">1,258.2</div>
-      <div class="buttons-list">
-        <button
-          class="button button-reset-all"
-          type="button"
-          title="Сбросить результат"
-        >
-          C
-          <span class="visually-hidden">Сбросить результат</span>
-        </button>
-        <button
-          class="button button-reset-one"
-          type="button"
-          title="Сбросить последний ввод"
-        >
-          <span class="visually-hidden">Сбросить последний ввод</span>
-        </button>
-        <button class="button button-operator" type="button" title="Разделить">
-          ÷
-          <span class="visually-hidden">Разделить</span>
-        </button>
-        <button class="button button-operand" type="button">7</button>
-        <button class="button button-operand" type="button">8</button>
-        <button class="button button-operand" type="button">9</button>
-        <button class="button button-operator" type="button" title="Умножить">
-          ×
-          <span class="visually-hidden">Умножить</span>
-        </button>
-        <button class="button button-operand" type="button">4</button>
-        <button class="button button-operand" type="button">5</button>
-        <button class="button button-operand" type="button">6</button>
-        <button class="button button-operator" type="button" title="Вычесть">
-          –
-          <span class="visually-hidden">Вычесть</span>
-        </button>
-        <button class="button button-operand" type="button">1</button>
-        <button class="button button-operand" type="button">2</button>
-        <button class="button button-operand" type="button">3</button>
-        <button class="button button-operator" type="button" title="Прибавить">
-          +
-          <span class="visually-hidden">Прибавить</span>
-        </button>
-        <button class="button button-operand button-operand-big" type="button">
-          0
-        </button>
-        <button class="button button-operator" type="button" title="Итог">
-          =
-          <span class="visually-hidden">Итог</span>
-        </button>
-      </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <title>Calculator</title>
+</head>
+
+<body class="page-body">
+  <div class="container">
+    <div class="output-line">0</div>
+    <div class="buttons-list">
+      <button class="button button-reset-all" type="button" title="Сбросить результат">
+        C
+        <span class="visually-hidden">Сбросить результат</span>
+      </button>
+      <button class="button button-clear" type="button" title="Сбросить последний ввод">
+        <span class="visually-hidden">Сбросить последний ввод</span>
+      </button>
+      <button class="button button-operator" type="button" title="Разделить">
+        <span class="sign">÷</span>
+        <span class="visually-hidden">Разделить</span>
+      </button>
+      <button class="button button-operand" type="button">7</button>
+      <button class="button button-operand" type="button">8</button>
+      <button class="button button-operand" type="button">9</button>
+      <button class="button button-operator" type="button" title="Умножить">
+        <span class="sign">×</span>
+        <span class="visually-hidden">Умножить</span>
+      </button>
+      <button class="button button-operand" type="button">4</button>
+      <button class="button button-operand" type="button">5</button>
+      <button class="button button-operand" type="button">6</button>
+      <button class="button button-operator" type="button" title="Вычесть">
+        <span class="sign">–</span>
+        <span class="visually-hidden">Вычесть</span>
+      </button>
+      <button class="button button-operand" type="button">1</button>
+      <button class="button button-operand" type="button">2</button>
+      <button class="button button-operand" type="button">3</button>
+      <button class="button button-operator" type="button" title="Прибавить">
+        <span class="sign">+</span>
+        <span class="visually-hidden">Прибавить</span>
+      </button>
+      <button class="button button-operand button-operand-big" type="button">0</button>
+      <button class="button button-total" type="button" title="Итог">=
+        <span class="visually-hidden">Итог</span>
+      </button>
     </div>
-  </body>
+  </div>
+  <script src="js/main.js"></script>
+</body>
+
 </html>
