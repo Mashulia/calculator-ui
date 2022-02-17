@@ -82,7 +82,6 @@
 .button-clear {
   position: relative;
 }
-
 .button-clear::before {
   position: absolute;
   content: "";
