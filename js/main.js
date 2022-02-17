@@ -5,6 +5,7 @@ const resetButton = document.querySelector(".button-reset-all");
 const clearButton = document.querySelector(".button-clear");
 const signOperations = document.querySelector(".sign");
 const totalButton = document.querySelector(".button-total");
+const zeroButton = document.querySelector(".button-operand-big");
 let number1;
 let number2;
 let operator;
@@ -66,7 +67,7 @@ function Calc(operation, a, b) {
 }
 
 operands.forEach((element) => {
-  element.addEventListener("click", () => {
+  element.addEventListener("click", (event) => {
     let operandContent = element.textContent;
 
     if (total) {
@@ -77,18 +78,27 @@ operands.forEach((element) => {
     if (output.textContent === "0") {
       output.textContent = "";
     }
-
-    output.textContent += operandContent;
+    if (event.target.value === "0" && operator) {
+      output.textContent += "";
+    } else {
+      output.textContent += operandContent;
+    }
   });
 });
 
 operators.forEach((element) => {
   element.addEventListener("click", () => {
-    const isContainSign =
-      output.textContent.indexOf("+") !== -1 ||
-      output.textContent.indexOf("-") !== -1 ||
-      output.textContent.indexOf("÷") !== -1 ||
-      output.textContent.indexOf("×") !== -1;
+    let string = output.textContent;
+    if (operator && string.split(operator).length === 1) {
+      operator = element.querySelector(".sign").textContent;
+      output.textContent += operator;
+    }
+    else if (string.split(operator).length === 2) {
+      number2 = +output.textContent.split(operator)[1];
+      total = Calc(operator, number1, number2);
+      output.textContent = total;
+      clearVariablesData();
+    }
     if (total) {
       clearVariablesData();
     }
@@ -96,9 +106,6 @@ operators.forEach((element) => {
       number1 = +output.textContent;
       operator = element.querySelector(".sign").textContent;
       output.textContent += operator;
-    } else if (isContainSign) {
-      operator = element.querySelector(".sign").textContent;
-      output.textContent[output.textContent.length - 1] = operator;
     }
   });
 });
@@ -132,8 +139,26 @@ clearButton.addEventListener("click", () => {
   let string = output.textContent;
   if (string.length > 1) {
     output.textContent = string.slice(0, string.length - 1);
+    // if (string.split(operator) === undefined) {
+    //   operator === undefined;
+    // }
+    // if (operator && string.split(operator).length === 1) {
+    //   number2 === undefined;
+    // }
+    // else if (string.split(operator).length === 2) {
+    //   number2 = +output.textContent.split(operator)[1];
+    //   total = Calc(operator, number1, number2);
+    //   output.textContent = total;
+    //   clearVariablesData();
+    // }
   } else {
     clearField();
     clearVariablesData();
   }
 });
+
+zeroButton.addEventListener("click", () => {
+  if (operator) {
+    output.textContent += "";
+  }
+})
