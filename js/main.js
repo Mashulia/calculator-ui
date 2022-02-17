@@ -14,6 +14,13 @@ function clearField() {
   output.textContent = 0;
 }
 
+function clearVariablesData() {
+  number1 = undefined;
+  number2 = undefined;
+  operator = undefined;
+  total = undefined;
+}
+
 function reduceFont() {
   if (output.textContent.length > 5) {
     output.style.fontSize = "45px";
@@ -51,7 +58,7 @@ function Calc(operation, a, b) {
         : "unknown operation";
   }
   if (operation === "÷") {
-    output.textContent = result.toFixed(1);
+    output.textContent = result.toFixed(2);
   } else {
     output.textContent = result;
   }
@@ -62,39 +69,55 @@ operands.forEach((element) => {
   element.addEventListener("click", () => {
     let operandContent = element.textContent;
 
-    if (total !== undefined) {
-      output.textContent = "0";
-      number1 = undefined;
-      number2 = undefined;
-      operator = undefined;
-      total = undefined;
+    if (total) {
+      clearField();
+      clearVariablesData();
     }
 
     if (output.textContent === "0") {
       output.textContent = "";
     }
+
     output.textContent += operandContent;
   });
 });
 
 operators.forEach((element) => {
   element.addEventListener("click", () => {
-    if (operator === undefined) {
+    const isContainSign =
+      output.textContent.indexOf("+") !== -1 ||
+      output.textContent.indexOf("-") !== -1 ||
+      output.textContent.indexOf("÷") !== -1 ||
+      output.textContent.indexOf("×") !== -1;
+    if (total) {
+      clearVariablesData();
+    }
+    if (!operator) {
       number1 = +output.textContent;
       operator = element.querySelector(".sign").textContent;
       output.textContent += operator;
+    } else if (isContainSign) {
+      operator = element.querySelector(".sign").textContent;
+      output.textContent[output.textContent.length - 1] = operator;
     }
   });
 });
 
 totalButton.addEventListener("click", () => {
-  if (number1 !== undefined && operator !== undefined) {
+  if (number1 && operator) {
     number2 = +output.textContent.split(operator)[1];
   }
-  total = Calc(operator, number1, number2);
-  console.log(output.textContent);
-  if (total !== undefined && total !== Infinity) {
-    output.textContent = total;
+  if (total) {
+    clearField();
+  } else if (!operator) {
+    output.textContent = output.textContent;
+  } else if (operator && number1 && !number2) {
+    output.textContent = number1;
+  } else if (operator && number1 && number2) {
+    total = Calc(operator, number1, number2);
+    if (total !== Infinity) {
+      output.textContent = total;
+    }
   } else {
     clearField();
   }
@@ -102,9 +125,7 @@ totalButton.addEventListener("click", () => {
 
 resetButton.addEventListener("click", () => {
   clearField();
-  number1 = undefined;
-  number2 = undefined;
-  operator = undefined;
+  clearVariablesData();
 });
 
 clearButton.addEventListener("click", () => {
@@ -113,5 +134,6 @@ clearButton.addEventListener("click", () => {
     output.textContent = string.slice(0, string.length - 1);
   } else {
     clearField();
+    clearVariablesData();
   }
 });
