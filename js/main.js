@@ -14,6 +14,13 @@ function clearField() {
   output.textContent = 0;
 }
 
+function reduceFont() {
+  if (output.textContent.length > 5) {
+    output.style.fontSize = "45px";
+    output.style.lineHeight = "50px";
+  }
+}
+
 function Calc(operation, a, b) {
   const OPERATIONS = {
     "+": a + b,
@@ -43,45 +50,50 @@ function Calc(operation, a, b) {
         ? OPERATIONS[operation]
         : "unknown operation";
   }
-  output.textContent = result;
+  if (operation === "÷") {
+    output.textContent = result.toFixed(1);
+  } else {
+    output.textContent = result;
+  }
   return output.textContent;
 }
 
 operands.forEach((element) => {
   element.addEventListener("click", () => {
+    let operandContent = element.textContent;
+
     if (total !== undefined) {
-      total = undefined;
       output.textContent = "0";
+      number1 = undefined;
+      number2 = undefined;
+      operator = undefined;
+      total = undefined;
     }
 
     if (output.textContent === "0") {
       output.textContent = "";
     }
-
-    let operandContent = element.textContent;
     output.textContent += operandContent;
   });
 });
 
 operators.forEach((element) => {
   element.addEventListener("click", () => {
-    number1 = +output.textContent;
-
-    sign = element.querySelector(".sign").textContent;
-    operator = sign;
-    console.log(operator);
-    output.textContent += operator;
+    if (operator === undefined) {
+      number1 = +output.textContent;
+      operator = element.querySelector(".sign").textContent;
+      output.textContent += operator;
+    }
   });
 });
 
 totalButton.addEventListener("click", () => {
   if (number1 !== undefined && operator !== undefined) {
-    number2 = +output.textContent.split(sign)[1];
+    number2 = +output.textContent.split(operator)[1];
   }
-
   total = Calc(operator, number1, number2);
   console.log(output.textContent);
-  if (total !== undefined) {
+  if (total !== undefined && total !== Infinity) {
     output.textContent = total;
   } else {
     clearField();
@@ -100,6 +112,6 @@ clearButton.addEventListener("click", () => {
   if (string.length > 1) {
     output.textContent = string.slice(0, string.length - 1);
   } else {
-    output.textContent = "0";
+    clearField();
   }
 });
