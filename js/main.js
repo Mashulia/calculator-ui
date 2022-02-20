@@ -15,7 +15,6 @@ function clearField() {
 }
 
 function clearVariablesData() {
-  number1 = undefined;
   number2 = undefined;
   operator = undefined;
   total = undefined;
@@ -61,6 +60,8 @@ function Calc(operation, a, b) {
 operands.forEach((element) => {
   element.addEventListener("click", () => {
     let operandContent = element.textContent;
+    let string = output.textContent;
+    let indexSign = string.indexOf("/+,-,÷,×/g");
 
     if (total) {
       clearField();
@@ -70,8 +71,11 @@ operands.forEach((element) => {
     if (output.textContent === "0") {
       output.textContent = "";
     }
-    output.textContent += operandContent;
-
+    if (event.target.value === "0" && operator && string[indexSign + 1] === undefined) {
+      output.textContent += "";
+    } else {
+      output.textContent += operandContent;
+    }
   });
 });
 
@@ -81,8 +85,7 @@ operators.forEach((element) => {
     if (operator && string.split(operator).length === 1) {
       operator = element.querySelector(".sign").textContent;
       output.textContent += operator;
-    }
-    else if (string.split(operator).length === 2) {
+    } else if (string.split(operator).length === 2) {
       number2 = +output.textContent.split(operator)[1];
       total = Calc(operator, number1, number2);
       output.textContent = total;
@@ -94,7 +97,11 @@ operators.forEach((element) => {
     if (!operator) {
       number1 = +output.textContent;
       operator = element.querySelector(".sign").textContent;
-      output.textContent += operator;
+      if (output.textContent.includes("/+,-,÷,×/g")) {
+        output.textContent.slice(output.textContent.length - 1) += operator;
+      } else {
+        output.textContent += operator;
+      }
     }
   });
 });
@@ -113,10 +120,12 @@ totalButton.addEventListener("click", () => {
     total = Calc(operator, number1, number2);
     if (total !== Infinity) {
       output.textContent = total;
-      clearVariablesData()
+      number1 = total;
+      clearVariablesData();
     }
   } else {
     clearField();
+    clearVariablesData();
   }
 });
 
