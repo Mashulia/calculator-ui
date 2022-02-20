@@ -58,7 +58,7 @@ function Calc(operation, a, b) {
 }
 
 operands.forEach((element) => {
-  element.addEventListener("click", () => {
+  element.addEventListener("click", (event) => {
     let operandContent = element.textContent;
     let string = output.textContent;
     let indexSign = string.indexOf("/+,-,÷,×/g");
