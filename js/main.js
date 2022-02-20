@@ -5,7 +5,6 @@ const resetButton = document.querySelector(".button-reset-all");
 const clearButton = document.querySelector(".button-clear");
 const signOperations = document.querySelector(".sign");
 const totalButton = document.querySelector(".button-total");
-const zeroButton = document.querySelector(".button-operand-big");
 let number1;
 let number2;
 let operator;
@@ -20,13 +19,6 @@ function clearVariablesData() {
   number2 = undefined;
   operator = undefined;
   total = undefined;
-}
-
-function reduceFont() {
-  if (output.textContent.length > 5) {
-    output.style.fontSize = "45px";
-    output.style.lineHeight = "50px";
-  }
 }
 
 function Calc(operation, a, b) {
@@ -67,7 +59,7 @@ function Calc(operation, a, b) {
 }
 
 operands.forEach((element) => {
-  element.addEventListener("click", (event) => {
+  element.addEventListener("click", () => {
     let operandContent = element.textContent;
 
     if (total) {
@@ -78,11 +70,8 @@ operands.forEach((element) => {
     if (output.textContent === "0") {
       output.textContent = "";
     }
-    if (event.target.value === "0" && operator) {
-      output.textContent += "";
-    } else {
-      output.textContent += operandContent;
-    }
+    output.textContent += operandContent;
+
   });
 });
 
@@ -124,6 +113,7 @@ totalButton.addEventListener("click", () => {
     total = Calc(operator, number1, number2);
     if (total !== Infinity) {
       output.textContent = total;
+      clearVariablesData()
     }
   } else {
     clearField();
@@ -139,26 +129,8 @@ clearButton.addEventListener("click", () => {
   let string = output.textContent;
   if (string.length > 1) {
     output.textContent = string.slice(0, string.length - 1);
-    // if (string.split(operator) === undefined) {
-    //   operator === undefined;
-    // }
-    // if (operator && string.split(operator).length === 1) {
-    //   number2 === undefined;
-    // }
-    // else if (string.split(operator).length === 2) {
-    //   number2 = +output.textContent.split(operator)[1];
-    //   total = Calc(operator, number1, number2);
-    //   output.textContent = total;
-    //   clearVariablesData();
-    // }
   } else {
     clearField();
     clearVariablesData();
   }
 });
-
-zeroButton.addEventListener("click", () => {
-  if (operator) {
-    output.textContent += "";
-  }
-})
