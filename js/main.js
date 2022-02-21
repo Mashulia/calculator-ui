@@ -1,7 +1,6 @@
-import {BUTTONS} from './view.js';
+import {BUTTONS, output} from './view.js';
 
 const DEFAULT_VALUE = "0";
-let  output= document.querySelector(".output-line");
 let number1;
 let number2;
 let operator;
@@ -27,27 +26,14 @@ function Calc(operation, a, b) {
   };
 
   let result;
-  let isFullData =
-    operation !== undefined && a !== undefined && b !== undefined;
-  let isDivisionByZero =
-    (operation === "div" && b === 0) || (operation === "rem" && b === 0);
-  let isNotTypeNumber = typeof a !== "number" || typeof b !== "number";
-  if (!isFullData) {
-    console.log("Error!!! Вы ввели не все данные");
-    return;
-  } else if (isNotTypeNumber) {
-    console.log("Error!!! Вы ввели не число");
-    return;
-  } else if (isDivisionByZero) {
+  let isDivisionByZero = (operation === "÷" && b === 0);
+ if (isDivisionByZero) {
     console.log("Error!!! На 0 делить нельзя");
     return;
   } else {
-    result =
-      OPERATIONS[operation] !== undefined
-        ? OPERATIONS[operation]
-        : "unknown operation";
+    result = OPERATIONS[operation];
   }
-  if (operation === "÷") {
+  if (operation === "÷" && b !== 0) {
     output.textContent = result.toFixed(2);
   } else {
     output.textContent = result;
@@ -58,11 +44,6 @@ function Calc(operation, a, b) {
 BUTTONS.OPERANDS_BUTTONS.forEach((element) => {
   element.addEventListener("click", () => {
     let operandContent = element.textContent;
-
-    if (total) {
-      clearField();
-      clearVariablesData();
-    }
 
     if (output.textContent === DEFAULT_VALUE) {
       output.textContent = "";
@@ -79,16 +60,15 @@ BUTTONS.OPERATORS_BUTTONS.forEach((element) => {
       operator = element.querySelector(".sign").textContent;
       output.textContent += operator;
     } else if (string.split(operator).length === 2) {
-      number2 = +output.textContent.split(operator)[1];
+      number2 = Number(output.textContent.split(operator)[1]);
       total = Calc(operator, number1, number2);
       output.textContent = total;
+      number1 = total;
       clearVariablesData();
     }
-    if (total) {
-      clearVariablesData();
-    }
+
     if (!operator) {
-      number1 = +output.textContent;
+      number1 = Number(output.textContent);
       operator = element.querySelector(".sign").textContent;
       if (output.textContent.includes("/+,-,÷,×/g")) {
         output.textContent.slice(output.textContent.length - 1) += operator;
@@ -101,11 +81,10 @@ BUTTONS.OPERATORS_BUTTONS.forEach((element) => {
 
 BUTTONS.TOTAL_BUTTON.addEventListener("click", () => {
   if (number1 && operator) {
-    number2 = +output.textContent.split(operator)[1];
+    number2 = Number(output.textContent.split(operator)[1]);
   }
-  if (total) {
-    clearField();
-  } else if (!operator) {
+
+  if (!operator) {
     output.textContent = output.textContent;
   } else if (operator && number1 && !number2) {
     output.textContent = number1;

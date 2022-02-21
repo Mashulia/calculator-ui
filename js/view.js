@@ -5,3 +5,5 @@ export const BUTTONS = {
   CLEAR_BUTTON: document.querySelector(".button-clear"),
   TOTAL_BUTTON: document.querySelector(".button-total"),
 };
+
+export let output = document.querySelector(".output-line");
