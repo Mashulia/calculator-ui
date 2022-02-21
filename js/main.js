@@ -1,17 +1,15 @@
-let output = document.querySelector(".output-line");
-const operands = document.querySelectorAll(".button-operand");
-const operators = document.querySelectorAll(".button-operator");
-const resetButton = document.querySelector(".button-reset-all");
-const clearButton = document.querySelector(".button-clear");
-const signOperations = document.querySelector(".sign");
-const totalButton = document.querySelector(".button-total");
+import {BUTTONS} from './view.js';
+
+const DEFAULT_VALUE = "0";
+let  output= document.querySelector(".output-line");
 let number1;
 let number2;
 let operator;
 let total;
 
+
 function clearField() {
-  output.textContent = 0;
+  output.textContent = DEFAULT_VALUE;
 }
 
 function clearVariablesData() {
@@ -57,29 +55,24 @@ function Calc(operation, a, b) {
   return output.textContent;
 }
 
-operands.forEach((element) => {
-  element.addEventListener("click", (event) => {
+BUTTONS.OPERANDS_BUTTONS.forEach((element) => {
+  element.addEventListener("click", () => {
     let operandContent = element.textContent;
-    let string = output.textContent;
-    let indexSign = string.indexOf("/+,-,÷,×/g");
 
     if (total) {
       clearField();
       clearVariablesData();
     }
 
-    if (output.textContent === "0") {
+    if (output.textContent === DEFAULT_VALUE) {
       output.textContent = "";
     }
-    if (event.target.value === "0" && operator && string[indexSign + 1] === undefined) {
-      output.textContent += "";
-    } else {
+
       output.textContent += operandContent;
-    }
   });
 });
 
-operators.forEach((element) => {
+BUTTONS.OPERATORS_BUTTONS.forEach((element) => {
   element.addEventListener("click", () => {
     let string = output.textContent;
     if (operator && string.split(operator).length === 1) {
@@ -106,7 +99,7 @@ operators.forEach((element) => {
   });
 });
 
-totalButton.addEventListener("click", () => {
+BUTTONS.TOTAL_BUTTON.addEventListener("click", () => {
   if (number1 && operator) {
     number2 = +output.textContent.split(operator)[1];
   }
@@ -129,12 +122,12 @@ totalButton.addEventListener("click", () => {
   }
 });
 
-resetButton.addEventListener("click", () => {
+BUTTONS.RESET_BUTTON.addEventListener("click", () => {
   clearField();
   clearVariablesData();
 });
 
-clearButton.addEventListener("click", () => {
+BUTTONS.CLEAR_BUTTON.addEventListener("click", () => {
   let string = output.textContent;
   if (string.length > 1) {
     output.textContent = string.slice(0, string.length - 1);
