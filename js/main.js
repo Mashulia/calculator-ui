@@ -1,4 +1,4 @@
-import {BUTTONS, output} from './view.js';
+import { BUTTONS, output } from './view.js';
 
 const DEFAULT_VALUE = "0";
 let number1;
@@ -26,13 +26,7 @@ function Calc(operation, a, b) {
   };
 
   let result;
-  let isDivisionByZero = (operation === "÷" && b === 0);
- if (isDivisionByZero) {
-    console.log("Error!!! На 0 делить нельзя");
-    return;
-  } else {
-    result = OPERATIONS[operation];
-  }
+  result = OPERATIONS[operation];
   if (operation === "÷" && b !== 0) {
     output.textContent = result.toFixed(2);
   } else {
@@ -48,8 +42,7 @@ BUTTONS.OPERANDS_BUTTONS.forEach((element) => {
     if (output.textContent === DEFAULT_VALUE) {
       output.textContent = "";
     }
-
-      output.textContent += operandContent;
+    output.textContent += operandContent;
   });
 });
 
@@ -61,10 +54,22 @@ BUTTONS.OPERATORS_BUTTONS.forEach((element) => {
       output.textContent += operator;
     } else if (string.split(operator).length === 2) {
       number2 = Number(output.textContent.split(operator)[1]);
-      total = Calc(operator, number1, number2);
-      output.textContent = total;
-      number1 = total;
-      clearVariablesData();
+      try {
+        total = Calc(operator, number1, number2);
+
+        if(total===Infinity||total===-Infinity){
+          clearField();
+          clearVariablesData();
+          throw new Error("Бесконечность!!!");
+        }
+        output.textContent = total;
+        number1 = total;
+        clearVariablesData();
+      } catch(error){
+        console.log(error);
+        clearField();
+        clearVariablesData();
+      }
     }
 
     if (!operator) {
@@ -83,21 +88,29 @@ BUTTONS.TOTAL_BUTTON.addEventListener("click", () => {
   if (number1 && operator) {
     number2 = Number(output.textContent.split(operator)[1]);
   }
-
+  
   if (!operator) {
     output.textContent = output.textContent;
-  } else if (operator && number1 && !number2) {
+  } else if (operator && number1 && number2==undefined) {
     output.textContent = number1;
-  } else if (operator && number1 && number2) {
-    total = Calc(operator, number1, number2);
-    if (total !== Infinity) {
+    operator=undefined;
+  } else if (operator && number1 && (number2|| number2===0)) {
+    
+    let isDivisionByZero = (operator === "÷" && number2 === 0);
+    try {
+      if (isDivisionByZero) {
+        output.textContent = "";
+        throw new Error("На ноль делить нельзя!");
+      }
+      total = Calc(operator, number1, number2);
       output.textContent = total;
       number1 = total;
       clearVariablesData();
+    } catch (error) {
+      console.log(error);
+      clearField();
+      clearVariablesData();
     }
-  } else {
-    clearField();
-    clearVariablesData();
   }
 });
 
